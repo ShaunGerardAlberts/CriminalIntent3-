@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.com.shaunalberts.criminalintent3.database.CrimeDBSchema.CrimeTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,10 @@ public class CrimeLab {
 
     private static ContentValues getContentValues(Crime crime) {
         ContentValues values = new ContentValues();
-        values.put(CrimeDBSchema.CrimeTable.Cols.UUID, crime.getId().toString());
-        values.put(CrimeDBSchema.CrimeTable.Cols.TITLE, crime.getTitle());
-        values.put(CrimeDBSchema.CrimeTable.Cols.DATE, crime.getDate().getTime());
-        values.put(CrimeDBSchema.CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
+        values.put(CrimeTable.Cols.UUID, crime.getId().toString());
+        values.put(CrimeTable.Cols.TITLE, crime.getTitle());
+        values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
+        values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
         return values;
     }
 
@@ -77,6 +78,7 @@ public class CrimeLab {
                 CrimeDBSchema.CrimeTable.Cols.UUID + " = ?",
                 new String[] { id.toString() }
         );
+
         try {
             if (cursor.getCount() == 0) {
                 return null;
@@ -105,7 +107,7 @@ public class CrimeLab {
     //private Cursor queryCrimes(String whereClause, String[] whereArgs) {
     private CrimeCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
-                CrimeDBSchema.CrimeTable.NAME,
+                CrimeTable.NAME,
                 null, // Columns - null selects all columns
                 whereClause,
                 whereArgs,
