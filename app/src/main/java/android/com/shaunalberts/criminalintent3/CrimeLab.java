@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.com.shaunalberts.criminalintent3.database.CrimeDBSchema.CrimeTable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +44,13 @@ public class CrimeLab {
         mContext = context.getApplicationContext();
         mDatabase = new CrimeBaseHelper(mContext)
                 .getWritableDatabase();
-        //mCrimes = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            Crime crime = new Crime();
-            crime.setTitle("Crime #" + i);
-            crime.setSolved(i % 2 == 0); // Every other one
-            //mCrimes.add(crime);
-        }
+//        //mCrimes = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) {
+//            Crime crime = new Crime();
+//            crime.setTitle("Crime #" + i);
+//            crime.setSolved(i % 2 == 0); // Every other one
+//            //mCrimes.add(crime);
+//        }
     }
 
     public List<Crime> getCrimes() {
@@ -69,11 +70,6 @@ public class CrimeLab {
     }
 
     public Crime getCrime(UUID id) {
-//        for (Crime crime : mCrimes) {
-//            if (crime.getId().equals(id)) {
-//                return crime;
-//            }
-//        }
         CrimeCursorWrapper cursor = queryCrimes(
                 CrimeDBSchema.CrimeTable.Cols.UUID + " = ?",
                 new String[] { id.toString() }
@@ -83,6 +79,7 @@ public class CrimeLab {
             if (cursor.getCount() == 0) {
                 return null;
             }
+            Log.d("GetCrime(UUID)", id.toString()   );
             cursor.moveToFirst();
             return cursor.getCrime();
         } finally {
