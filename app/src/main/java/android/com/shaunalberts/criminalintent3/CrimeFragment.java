@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -126,8 +128,8 @@ public class CrimeFragment extends Fragment {
         });
 
         //suspect button pressed
-//        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);//**************
-        final Intent pickContact = new Intent();
+        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);//**************
+        //final Intent pickContact = new Intent();
         mSuspectButton = (Button) v.findViewById(R.id.crime_suspect);
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +182,7 @@ public class CrimeFragment extends Fragment {
             Uri contactUri = data.getData();
             //specify which fields you want your query to return values for
             String[] queryFields = new String[] {
-                    //ContactsContract.Contacts.DISPLAY_NAME//************************************************
+                    ContactsContract.Contacts.DISPLAY_NAME//************************************************
             };
 
             Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null, null ,null);
